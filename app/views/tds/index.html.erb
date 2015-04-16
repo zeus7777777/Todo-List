@@ -1,0 +1,41 @@
+<h1>Todo list</h1>
+<%= form_tag tds_path, method:"get" do %>
+<%= text_field_tag :name %>
+<%= hidden_field_tag :status , 0 %>
+<%= submit_tag "Add todo" %>
+<% end %>
+<table>
+  <tr>
+    <td><%= link_to "View all", root_path %></td>
+
+    <%= form_tag tds_path, method:"get" do %>
+    <%= hidden_field_tag :find, 0 %>
+    <td><%= submit_tag "Find todo" %></td>
+    <% end %>
+
+    <%= form_tag tds_path, method:"get" do %>
+    <%= hidden_field_tag :find, 1 %>
+    <td><%= submit_tag "Find finished" %></td>
+    <% end %>
+
+  </tr>
+</table>
+<table>
+  <% @tds.each do |i| %>
+  <tr>
+    <td><%= i.name %></td>
+    <td><%= i.status==1?"Finished":"todo" %></td>
+    <td><%= link_to "edit", edit_td_path(i) %></td>
+    <td><%= link_to "detele",td_path(i), method:"delete" %></td>
+
+    <%= form_tag tds_path, method:"get" do %>
+    <%= hidden_field_tag :hidden, "cgstat" %>
+    <%= hidden_field_tag :id, i.id %>
+    <%= hidden_field_tag :name, i.name %>
+    <%= hidden_field_tag :status, 1-i.status %>
+    <td><%= submit_tag "Change status" %></td>
+    <% end %>
+  </tr>
+
+  <% end %>
+</table>
